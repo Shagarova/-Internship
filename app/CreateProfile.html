@@ -93,7 +93,7 @@
 
 													<label class="nav-link nav-link__new-photo" data-tab='new-photo' for="NewPhoto">Upload Photo</label>
 													<form  method="post">
-														<input type="file" name="avatar" id="NewPhoto" accept=".jpg, .jpeg, .png">
+														<input type="file" name="UploadForm[imageFile]" id="NewPhoto" accept=".jpg, .jpeg, .png">
 													</form> 
 													<!-- </a> -->
 													<!-- </li> -->
@@ -158,16 +158,13 @@
 
 
 															<div data-content='albums'>
-																<div class="albums tab-pane" id="albums">
+																<ul class="albums tab-pane" id="albums">
 																	<li class="album-item-empty">
 																		Нет альбомов. Создайте свой первый альбом!
 																	</li>
-															<!-- <li class="album-item">
-																	
-																</li>
-															-->
+															
 
-														</div>
+														</ul>
 													</div>
 
 													<div data-content='new-album'>
@@ -176,7 +173,7 @@
 
 													<div data-content='photos'>
 														<ul class="photos tab-pane" id="photos">
-															<li class=" photo-item-empty">
+															<li class="photo-item-empty">
 																<b>Here will be your photos</b> 
 															</li>
 															<!-- <li class=" photo-item"></li> -->
@@ -207,7 +204,6 @@
 							</section>
 
 							<script src="js/main.js"></script>
-
 							<script src="js/mainpage.js"></script>
 							<script src="js/CreateProfile.js"></script>
 							<script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script> <!--Подключаем полифиллы для firefox и ie -->

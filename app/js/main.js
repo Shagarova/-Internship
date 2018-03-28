@@ -1,8 +1,12 @@
 /*создаем глобальную переменную для загрузки фото для аватара*/
 var globalPhoto;
+var NewPhoto;
 var token = localStorage.getItem('token');
 var id = localStorage.getItem('user_id');
-
+var albums_id;
+// var Value = $('#newElemInput').val();
+// var globalAlbumName;
+// var albums_id = localStorage.getItem('albums_id');
 /*переходы между формами*/
 $('#forgotPassword').click(function(){
   $('.LoginForm.login').css({
@@ -497,10 +501,10 @@ var App= {
     $('.friends__list__item.empty').html('У вас еще нет друзей');
   };
 },
-    error: function (xhr, status, error) {
-     console.log('ERROR!!!', xhr, status, error);
-   }
- });
+error: function (xhr, status, error) {
+ console.log('ERROR!!!', xhr, status, error);
+}
+});
 
 },
 
@@ -509,7 +513,7 @@ var App= {
 
 
 ProfileControllerGet:  function(token){
-  
+
   console.log(id);
   $.ajax({
    url: 'http://restapi.fintegro.com/profiles/' + id +' ',
@@ -531,6 +535,7 @@ ProfileControllerGet:  function(token){
 UploadController:  function(token){
   var form = new FormData();
   form.append('UploadForm[imageFile]', ($('#profilePhoto')[0].files[0]));
+  // form.append('UploadForm[imageFile]', ($('#NewPhoto')[0].files[0]));
 
   $.ajax({
    url: 'http://restapi.fintegro.com/upload',
@@ -546,18 +551,20 @@ UploadController:  function(token){
    success: function (data) {
         // $('.userPhotoMini').attr('src', data.link);
         globalPhoto = data.link;
+        // NewPhoto = data.link;
+        // console.log($('#NewPhoto')[0].files[0]);
         console.log($('#profilePhoto')[0].files[0]);
         console.log( data.link);
       },
-  error: function (xhr, status, error) {
-   console.log('ERROR!!!', [arguments]);
- }
-});
+      error: function (xhr, status, error) {
+       console.log('ERROR!!!', [arguments]);
+     }
+   });
 },
 
 /*обновление профайла*/
 ProfileControllerPut: function(token){
-  
+
   $.ajax({
    url: 'http://restapi.fintegro.com/profiles/' + id +' ',
    method: 'PUT',
@@ -609,10 +616,10 @@ ProfileControllerDelete: function(token, id){
     // console.log('204');
 
   },
-        error: function (xhr, status, error) {
-         console.log('ERROR!!!', xhr, status, error);
-       }
-     });
+  error: function (xhr, status, error) {
+   console.log('ERROR!!!', xhr, status, error);
+ }
+});
 
 },
 /*Друзья враги*/
@@ -628,7 +635,7 @@ UserFriendsEnemies: function(token){
    },
    success: function(data){
     console.log(data);
-     /*удаляем другие результаты поиска*/
+    /*удаляем другие результаты поиска*/
 
 
 
@@ -693,10 +700,10 @@ UserFriendsEnemies: function(token){
 //   $('.search__result--found--Enemies').text('У вас еще нет врагов');
 // }
 
-  },
-  error: function(data){
-    console.log('ERROR!!!', xhr, status, error);
-  }
+},
+error: function(data){
+  console.log('ERROR!!!', xhr, status, error);
+}
 });
 },
 
@@ -744,7 +751,7 @@ UserFriendsId: function(token){
    $('.search__result--found--Friends').css({
     'padding' : '20px',
     'fontSize' : '20px'
-   })
+  })
  }
 },
 error: function(data){
@@ -797,10 +804,10 @@ UserEnemiesId: function(token){
  /*если нет друзей, то показываем блок о том, что у нас нет друзей*/
  else if(data.enemies.length==0){
   $('.search__result--found--Enemies').text('У вас еще нет врагов');
-    $('.search__result--found--Enemies').css({
+  $('.search__result--found--Enemies').css({
     'padding' : '20px',
     'fontSize' : '20px'
-   })
+  })
 }
 },
 error: function(data){
@@ -828,7 +835,7 @@ UserFriendsAddBlock: function(token, userId, type){
     // $('.friends__list').children().remove();/*добавила*/
     App.ProfilesControllerGet(token);/*добавила*/
     App.UserFriendsId(token);
-     App.UserEnemiesId(token);
+    App.UserEnemiesId(token);
     // App.Search(token);/*добавила*/
   },
   error: function(data){
@@ -1048,8 +1055,12 @@ Search: function(token){
             console.log($(['data-user-id="'+ profile.id +'"']));
 
 
-            var qqq = $(['data-user-id="'+ profile.id +'"']);
-            $(qqq).find($('button.found--item--follow')).remove();
+            // var thisprofile = $(['data-user-id="'+ profile.id +'"']);
+            // if( $(thisprofile).find($('button.found--item--follow'))){
+            //  $(thisprofile).find($('button.found--item--follow')).remove();
+            //   console.log('nashel');
+            // }
+
 
 
             // console.log(profile.id);
@@ -1098,7 +1109,7 @@ Search: function(token){
 
 
 /*Task 8 Album controller*/
- AlbumController: function(token, id){
+AlbumController: function(token){
   $.ajax({
    url: 'http://restapi.fintegro.com/albums',
    method: 'GET',
@@ -1108,10 +1119,45 @@ Search: function(token){
    },
    data:{
     user_id:id
-   },
+  },
+  success: function (data) {
 
-   success: function (data) {
     console.log(data);
+
+    // localStorage.setItem('albums_id', data.albums.id);
+    $('#albums').children().remove();
+    /*если количество альбомов не 0, то убираем пустой элемент с текстом, что ничего не найдено*/
+    if(data.albums.length!==0){
+      $('.album-item-empty').css({
+        'display':'none'
+      });
+
+      /*проходим массивом по результатам поиска*/
+      for(var i=0;i<data.albums.length;i++){
+        var albums = data.albums[i];
+        albums_id=data.albums[i].id;
+        // console.log(albums_id);
+        AllAlbums(albums.id,albums.name,albums.created,albums.photos);
+        // проверяем есть ли фото, если нету или формат не соответствует, то подгружаем стандартное фото
+        if(typeof albums.photos == 'object'){
+          $('.albums__logo>img').attr('src', '../img/no-image.png')
+        }
+        else if(typeof friends.photo == ''){
+          $('.albums__logo>img').attr('src', '../img/no-image.png')
+        }
+      };
+    }
+    /*если нет альбомов, то показываем блок с информацией, что альбомов  у нас нет*/
+    else if(data.albums.length==0){
+      console.log('У вас еще нет альбомов');
+      $('.album-item-empty').css('display', 'block');
+    };
+
+    //   // albums_id=data.albums[i].id;
+    //   // console.log(albums_id);
+    //   // albums_name=data.albums[i].name;
+    //   // console.log(albums_name);
+
   }, 
   error:function (xhr, status, error) {
    console.log('ERROR!!!', xhr, status, error);
@@ -1119,23 +1165,227 @@ Search: function(token){
 });
 },
 
-//  AlbumControllerID: function(token){
+AlbumControllerID: function(token, albumID){
+  // var albums_id = data.albums.id;
+  // console.log(albums_id);
+  $.ajax({
+   url: 'http://restapi.fintegro.com/albums/' + albumID,
+   method: 'GET',
+   dataType: 'json',
+   headers: {
+     bearer: token
+   },
+   success: function (data) {
+    console.log(data);
+    App.AlbumController(token);
+
+  }, 
+  error:function (xhr, status, error) {
+   console.log('ERROR!!!', xhr, status, error);
+ }
+});
+},
+
+ // AlbumControllerPost: function(token,nameAlbum){
+  AlbumControllerPost: function(token){
+
+  // nameAlbum();
+
+    $.ajax({
+     url: 'http://restapi.fintegro.com/albums',
+     method: 'POST',
+     dataType: 'json',
+     headers: {
+       bearer: token
+     },
+     data: {
+      name:$('#newElemInput').val()
+// name:'lewfhsdlkn'
+},
+
+success: function (data) {
+  console.log(data);
+    // console.log(data.name);
+    App.AlbumController(token);
+ // console.log(data.albums[0].id);
+
+}, 
+error:function (xhr, status, error) {
+ console.log('ERROR!!!', xhr, status, error);
+}
+});
+  },
+
+  AlbumControllerDelete: function(token, albumID){
+    $.ajax({
+     url: 'http://restapi.fintegro.com/albums/'+ albumID,
+     method: 'DELETE',
+     dataType: 'json',
+     headers: {
+       bearer: token
+     },
+     success: function (data) {
+      App.AlbumController(token);
+ // console.log(data.albums[0].id);
+
+}, 
+error:function (xhr, status, error) {
+ console.log('ERROR!!!', xhr, status, error);
+}
+});
+  },
+
+
+  PhotoController: function(token, albumID){
+    $.ajax({
+     url: 'http://restapi.fintegro.com/photos',
+     method: 'GET',
+     dataType: 'json',
+     headers: {
+       bearer: token
+     },
+     data: {
+      album_id:albumID
+    },
+    success: function (data) {
+      console.log(data);
+      $('#photos').children().remove();
+      /*если количество альбомов не 0, то убираем пустой элемент с текстом, что ничего не найдено*/
+      if(data.photos.length!==0){
+        $('.photo-item-empty').css({
+          'display':'none'
+        });
+
+        /*проходим массивом по результатам поиска*/
+        for(var i=0;i<data.photos.length;i++){
+          var photos = data.photos[i];
+          photos_id=data.photos[i].id;
+        // console.log(albums_id);
+        AllPhotos(photos.id,photos.url,photos.created);
+      };
+    }
+    /*если нет альбомов, то показываем блок с информацией, что альбомов  у нас нет*/
+    else if(data.photos.length==0){
+      console.log('У вас еще нет фото');
+      var divEmptyAlbum = document.createElement('div');
+      $('#photos').append(divEmptyAlbum);
+      $(divEmptyAlbum).css({
+        'textAlign' : 'center',
+        'fontSize' : '20px'
+      });
+      $(divEmptyAlbum).text('У вас еще нет фото');
+    };
+  }, 
+  error:function (xhr, status, error) {
+   console.log('ERROR!!!', xhr, status, error);
+ }
+});
+  },
+
+  PhotoControllerID: function(token, photoID){
+    $.ajax({
+     url: 'http://restapi.fintegro.com/photos/' + photoID,
+     method: 'GET',
+     dataType: 'json',
+     headers: {
+       bearer: token
+     },
+
+     success: function (data) {
+      console.log(data);
+      App.PhotoController(token);
+
+    }, 
+    error:function (xhr, status, error) {
+     console.log('ERROR!!!', xhr, status, error);
+   }
+ });
+  },
+
+
+
+// UploadControllerPhoto:  function(token){
+//   var formm = new FormData();
+//   formm.append('UploadForm[imageFile]', ($('#NewPhoto')[0].files[0]));
+
 //   $.ajax({
-//    url: 'http://restapi.fintegro.com/albums/' + id + ' ',
-//    method: 'GET',
-//    dataType: 'json',
+//    url: 'http://restapi.fintegro.com/upload',
+//    method: 'POST',
+//    crossDomain:true,
+//    cache:false,
+//    contentType:false,
+//    processData:false,
 //    headers: {
 //      bearer: token
 //    },
+//    data: formm,
 //    success: function (data) {
-//     console.log(data);
-//   }, 
-//   error:function (xhr, status, error) {
-//    console.log('ERROR!!!', xhr, status, error);
-//  }
+       
+//         NewPhoto = data.link;
+//         console.log($('#NewPhoto')[0].files[0]);
+//         console.log( data.link);
+//       },
+//       error: function (xhr, status, error) {
+//        console.log('ERROR!!!', [arguments]);
+//      }
+//    });
 // },
 
+
+
+
+
+
+  PhotoControllerPost: function(token, albumID){
+    $.ajax({
+     url: 'http://restapi.fintegro.com/photos',
+     method: 'GET',
+     dataType: 'json',
+     headers: {
+       bearer: token
+     },
+     data: {
+      album_id:albumID,
+      url:globalPhoto
+    },
+    success: function (data) {
+      App.UploadController(token);
+      console.log(data);
+      console.log(NewPhoto);
+
+    }, 
+    error:function (xhr, status, error) {
+     console.log('ERROR!!!', xhr, status, error);
+   }
+ });
+  },
+
+
+
+
+
+
+
 };
+
+
+
+
+
+
+// function nameAlbum(){
+
+// $('#newElemInput').keyup(function(event){
+//           event = event || window.event;
+//           if (event.keyCode === 9) {
+//             Value = $('#newElemInput').val();
+//             console.log(Value);
+// };
+// });
+// };
+
+
+
 /*модальное окно про друзей и врагов*/
 
 function allYourFriendsModal(){
@@ -1299,6 +1549,38 @@ function yourFriends(id, lastname, firstname, quote, photo, lived, form, went, f
 }
 
 
+
+
+
+
+/*функция по выводу информации про альбомы*/
+function AllAlbums(id, name, created, photos){
+  $('#albums').append('<li class="albums__list__item" data-album-id="' + id + '">\
+   <div class="albums__logo"> <img src=" ' + photos + ' "></div>\
+   <div class="albums__list__item--info">\
+   <a href="#" class="albums__name">  ' + name + ' <span class="albums__created">' + created + ' </span></a>\
+   </div>\
+   </li>');
+}
+
+
+// /*функция по выводу информации про фото*/
+// function AllPhotos(id, url, created){
+//   $('#photos').append('<li class="photo__item" data-photo-id="' + id + '">\
+//    <div class="photos__logo"> <img src=" ' + url + ' "></div>\
+//    <div class="photos__list__item--info">\
+//    <a href="#" class="photos__name"><span class="photos__created">' + created + ' </span></a>\
+//    </div>\
+//    </li>');
+// }
+
+/*функция по выводу информации про фото*/
+function AllPhotos(id, url, created){
+  $('#photos').append('<li class="photo__item" data-photo-created="'+ created+'" data-photo-id="' + id + '">\
+    <img src=" ' + url + ' ">');
+}
+
+
 $('#profilePhoto').on('change', function(token){
  App.UploadController(localStorage.getItem('token'));
 });
@@ -1361,10 +1643,10 @@ function logout() {
       // App.UserFriendsEnemies(token);
       allYourFriendsModal();
        // App.UserFriendsEnemies(token);
-     
-      App.UserFriendsId(token);
-      return false;
-    });
+
+       App.UserFriendsId(token);
+       return false;
+     });
 
     /*смотрим всех друзей из левой части */
     $('body').on('click', '.count__friends', function(e){
@@ -1403,9 +1685,9 @@ function logout() {
       var userID = $(this).closest('.search__allEnemies').attr('data-user-id');
       App.UserFriendsAddBlock(token, userID, 1);
         // App.UserFriendsEnemies(token);
-      App.UserEnemiesId(token);
-      return false;
-    });
+        App.UserEnemiesId(token);
+        return false;
+      });
 
     /*добавление в блок*/
 
@@ -1441,7 +1723,7 @@ function logout() {
       e.preventDefault();
       var userID = $(this).closest('.search__allFriends').attr('data-user-id');
       // App.UserFriendsDelete(token, userID);
-  App.UserFriendsEnemiesDelete(token, userID);
+      App.UserFriendsEnemiesDelete(token, userID);
       // App.UserFriendsDeleteCenterFriends(token, userID);
       // App.UserFriendsId(token);
       return false;
@@ -1481,12 +1763,76 @@ function logout() {
 
 
     
-$('body').on('click', '.nav-link__albums', function(e){
+
+
+
+
+
+
+
+
+
+
+
+// $('#NewPhoto').on('change', function(token){
+//  App.UploadController(token);
+// });
+
+
+
+
+
+
+
+    $('body').on('click', '.nav-link__albums', function(e){
       e.preventDefault();;
-      // var userID = $(this).closest('.found--item').attr('data-user-id');
-      App.AlbumController(token, id);
-     
+      App.AlbumController(token);
       return false;
     });
 
     
+    $('body').on('click', '.albums__name', function(e){
+      e.preventDefault();
+      var albumID = $(this).closest('.albums__list__item').attr('data-album-id');
+
+      App.AlbumControllerID(token, albumID);
+      App.PhotoController(token, albumID);
+      // $(this).closest('.albums__list__item').addClass('activeAlbum');
+      return false;
+    });
+
+
+  $('body').on('click', '.modal-edit', function(e){
+      e.preventDefault();
+   App.AlbumControllerPost(token);
+      return false;
+    });
+
+
+
+
+    $('body').on('click', '.nav-link__new-photo', function(e){
+      e.preventDefault();
+      var photoID = $(this).closest('.photos__list__item').attr('data-album-id');
+
+      App.AlbumControllerID(token, albumID);
+      App.PhotoController(token, albumID);
+      App.PhotoControllerPost(token, albumID);
+      // $(this).closest('.albums__list__item').addClass('activeAlbum');
+      return false;
+    });
+
+
+
+
+
+
+
+    $('body').on('click', '.nav-link__remove-album', function(e){
+      e.preventDefault();
+      var albumDelete = $(this).siblings('.nav-link__album').find('.activeAlbum');
+      console.log(albumDelete);
+      // var albumID = $(this).closest('.albums__list__item').attr('data-album-id');
+      // App.AlbumControllerDelete(token, albumID);
+      return false;
+    });
