@@ -1,10 +1,10 @@
-
+var token = localStorage.getItem('token');
 
 /*при клике на пункт меню*/
 $('[data-tab]').click(function(e){
 // e.preventDefault();
 var tab = $(this).data('tab');
-console.log(tab);
+// console.log(tab);
 
 /*если data-tab у пункта меню не новый альбом, 
 то убираем контент и ставим соответствующий другой контент*/
@@ -84,97 +84,101 @@ if($(this).data('tab') !== 'albums' && $(this).data('tab') !== 'new-album'){
 
 
 
-$('.nav-link__new-album').click(ShowModal);
-/*создаем модальное окно для ввода наименования альбома*/
-function ShowModal(){
-  $('.modal').remove();
-  var overlay = document.createElement('div');
-  var modalContainer = document.createElement('div');
-  var modalTitle = document.createElement('div');
+// $('.nav-link__new-album').click(ShowModal);
+// /*создаем модальное окно для ввода наименования альбома*/
+// function ShowModal(){
+//   $('.modal').remove();
+//   var overlay = document.createElement('div');
+//   var modalContainer = document.createElement('div');
+//   var modalTitle = document.createElement('div');
   
-  var modalClose = document.createElement('a');
+//   var modalClose = document.createElement('a');
 
-  var modalEdit = document.createElement('button');
-  var modalNewElem = document.createElement('div');
-  var modalNewElemInput = document.createElement('input');
+//   var modalEdit = document.createElement('button');
+//   var modalNewElem = document.createElement('div');
+//   var modalNewElemInput = document.createElement('input');
 
-  $(modalClose)
-  .attr('href', '#')
-  .text('x')
-  .addClass('modal-close');
+//   $(modalClose)
+//   .attr('href', '#')
+//   .text('x')
+//   .addClass('modal-close');
 
-  $(modalTitle)
-  .addClass('modal-title')
-  .append('New album', modalClose);
+//   $(modalTitle)
+//   .addClass('modal-title')
+//   .append('New album', modalClose);
 
-  $(modalNewElemInput)
-  .addClass('modal-newElemInput')
-  .attr('id', 'newElemInput')
-  // .attr('placeholder', 'Введите название');
+//   $(modalNewElemInput)
+//   .addClass('modal-newElemInput')
+//   .attr('id', 'newElemInput')
+//   // .attr('placeholder', 'Введите название');
 
-  $(modalEdit)
-  .addClass('modal-edit')
-  .text('Create')
-  .css({
-    'background-color' : 'blue',
-    'color' : '#fff'
-  })
+//   $(modalEdit)
+//   .addClass('modal-edit')
+//   .text('Create')
+//   .css({
+//     'background-color' : 'blue',
+//     'color' : '#fff'
+//   })
 
-  $(modalNewElem)
-  .addClass('modal-newElem')
-  .append('Album name:',modalNewElemInput, modalEdit);
+//   $(modalNewElem)
+//   .addClass('modal-newElem')
+//   .append('Album name:',modalNewElemInput, modalEdit);
 
-  $(modalContainer)
-  .addClass('modal')
+//   $(modalContainer)
+//   .addClass('modal')
 
-  .append(modalTitle, modalNewElem) ;
+//   .append(modalTitle, modalNewElem) ;
 
-  $(overlay).addClass('modal-overlay')
-  .append(modalContainer);
+//   $(overlay).addClass('modal-overlay')
+//   .append(modalContainer);
 
-  $('script:last-of-type').after(overlay);
+//   $('script:last-of-type').after(overlay);
+// }
 
-  
+
+// $('body').on('click', '.modal-edit', function(){
 
 
-  $('.modal-edit').click(function(){
+//     // var newMenuItem = document.createElement('li');
+//     // $(newMenuItem).addClass('album-item');
+//     // var a=$(modalNewElemInput).val();
+//     // $(newMenuItem).text(a);
 
-    // var newMenuItem = document.createElement('li');
-    // $(newMenuItem).addClass('album-item');
-    // var a=$(modalNewElemInput).val();
-    // $(newMenuItem).text(a);
-
-    // albums.append(newMenuItem);
+//     // albums.append(newMenuItem);
     
-    $('.modal').remove();
-    $('.modal-overlay').remove();
-
-    var tabalbums = $('.nav-link__albums').data('tab');
-    $('[data-content =  ' + tabalbums + ']').fadeIn();
-
-    $('a').removeClass('active');
-    $('label').removeClass('active');
-    // $(this).addClass('active');
-
-    $('.nav-link__albums').addClass('active');
-    // checkAlbumItem();
+//     // $('.modal').remove();
+//     // $('.modal-overlay').remove();
 
 
-      console.log('создан новый альбом');
-      // App.AlbumControllerPost(token, $('#newElemInput').val());
-      App.AlbumControllerPost(token);
-      App.AlbumController(token);
+//     // debugger;
+//     // console.log('1', $('#newElemInput').val());
 
 
-  });
+//     var tabalbums = $('.nav-link__albums').data('tab');
+//     $('[data-content =  ' + tabalbums + ']').fadeIn();
 
-  $('.modal-close').click(function(){
-    $('.modal').remove();
-    $('.modal-overlay').remove();
-  });
+//     $('a').removeClass('active');
+//     $('label').removeClass('active');
+//     // $(this).addClass('active');
+
+//     $('.nav-link__albums').addClass('active');
+//     // checkAlbumItem();
 
 
-}
+//       console.log('создан новый альбом');
+//       // App.AlbumControllerPost(token, $('#newElemInput').val());
+//       App.AlbumControllerPost(token);
+//       App.AlbumController(token);
+//       $('.modal').remove();
+//       $('.modal-overlay').remove();
+
+//   });
+
+//   $('.modal-close').click(function(){
+//     $('.modal').remove();
+//     $('.modal-overlay').remove();
+//   });
+
 
 /*конец модального окна*/
 
@@ -239,6 +243,8 @@ else{
 
 
 /*конец нажатие на альбом*/
+
+
 
 
 /*клик на удаление альбома - удаляем альбом этот, убираем у этого пункта меню класс актив
