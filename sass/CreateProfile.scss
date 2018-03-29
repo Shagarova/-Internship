@@ -29,8 +29,10 @@
 				width: 150px;
 				height: 150px;
 				margin:0 auto;
+
 				&>img{
-					width: 90%;
+					width: 100%;
+					border-radius: 50%;
 				}
 			}
 			.profile__name{
@@ -334,8 +336,12 @@
 	margin-bottom: 30px;
 	margin-right: 20px;
 	border-radius: 5px;
+	.albums__name{
+		text-decoration: none;
+		font-size:16px;
+	}
 	&--info{
-		margin-top: 200px;
+		margin-top: 210px;
 		margin-left: 10%;
 	}
 	&--delete{
@@ -356,6 +362,7 @@
 .photo__item{
 	list-style-type: none;
 	display: inline-block;
+	    float: left;
 	// width: 47%;
 	// height: 400px;
 	// border:1px solid lightgrey;
@@ -366,8 +373,10 @@
 		cursor: pointer;
 	}
 	&>img{
-		width: 30%;
-		height: 30%;
+		max-width: 100%;
+		max-height: 100%;
+		width: 70%;
+		height: 70%;
 	}
 }
 
@@ -384,11 +393,35 @@
 	left: 0;
 	z-index: 5;
 	& img{
-		margin-top:calc(50% - 50px);
-		margin-left:calc(50% - 100px);
+		margin-top:calc(50% - 700px);
+		margin-left:calc(50% - 250px);
 	}
 }
 
+
+.modal-title.PhotoDelete{
+	background:transparent;
+	padding:20px;
+	color:#333;
+	font-size: 26px;
+	font-weight: bold;
+	position: relative;
+	// border-bottom:1px solid lightgrey;
+}
+
+.modal-close.PhotoDelete{
+	position: absolute;
+	display: block;
+	width: 30px;
+	height: 30px;
+	// background: red;
+	top:20px;
+	right: 20px;
+	text-align: center;
+	text-decoration: none;
+	vertical-align: middle;
+	text-decoration: none !important;	
+}
 
 @media (min-width: 1200px){
 	.createProfile{

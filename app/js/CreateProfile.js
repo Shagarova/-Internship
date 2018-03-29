@@ -42,10 +42,11 @@ if(tab=='new-photo'){
 /**/
 
 /*если мы нажимаем на удалить альбом, то в контенте открываются альбомы*/
-if(tab=='remove-album'){
-var tabalb = $('.nav-link__albums').data('tab');
-  $('[data-content =  ' + tabalb + ']').fadeIn();
-}
+// if(tab=='remove-album'){
+// var tabalb = $('.nav-link__albums').data('tab');
+//   $('[data-content =  ' + tabalb + ']').fadeIn();
+//   $('.nav-link__albums').addClass('active');
+// }
 
 
 
