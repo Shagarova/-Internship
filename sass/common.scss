@@ -516,7 +516,7 @@ small.search--small{
 					}
 				}
 			}
-		
+			
 		}
 		&__right{
 
@@ -547,7 +547,7 @@ small.search--small{
 					&__item{
 						&.followers{
 							// display:none;
-							height: 100px;
+							min-height: 100px;
 							// border-bottom:1px solid lightgrey;
 						}
 						
@@ -653,17 +653,17 @@ small.search--small{
 /*модальное окно*/
 
 .search__result--found--Friends, .search__result--found--Enemies{
-		-webkit-display: flex;
-		-ms-display: flex; 
-		display: flex;
-		-webkit-flex-wrap: wrap;
-		-ms-flex-wrap: wrap;
-		flex-wrap: wrap;
-		.search__allFriends, .search__allEnemies{
-			border-bottom:1px solid lightgrey;
-			margin:10px 10px 10px 0px;
-			border-radius:4px;
-			width: 100%;
+	-webkit-display: flex;
+	-ms-display: flex; 
+	display: flex;
+	-webkit-flex-wrap: wrap;
+	-ms-flex-wrap: wrap;
+	flex-wrap: wrap;
+	.search__allFriends, .search__allEnemies{
+		border-bottom:1px solid lightgrey;
+		margin:10px 10px 10px 0px;
+		border-radius:4px;
+		width: 100%;
 			// &--bcg{
 			// 	background: url('../img/instagram_4.jpg')  center;
 			// 	height: 150px;
@@ -705,7 +705,7 @@ small.search--small{
 						margin-bottom: 5px;
 					}
 					&--buttons{
-							width: 40%;
+						width: 40%;
 						display: inline-block;
 						margin-top: 15px;
 						margin-bottom: 15px;
@@ -734,20 +734,20 @@ small.search--small{
 			}
 
 
-.footer{
-	border-top:1px solid #ddd;
-	background-color:#fff;
-	position: fixed;
-	bottom: 0;
-	left: 0;
-	width: 100%;
-	height:50px;
-	padding-top:15px;
-	&__item{
-		color:black;
-		font-size: 13px;
-		text-align: center;
-		margin:0 auto 20px auto;
+			.footer{
+				border-top:1px solid #ddd;
+				background-color:#fff;
+				position: fixed;
+				bottom: 0;
+				left: 0;
+				width: 100%;
+				height:50px;
+				padding-top:15px;
+				&__item{
+					color:black;
+					font-size: 13px;
+					text-align: center;
+					margin:0 auto 20px auto;
   	// width:300px;
   }
 

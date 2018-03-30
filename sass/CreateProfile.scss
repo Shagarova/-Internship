@@ -237,7 +237,6 @@
 
 
 
-
 /*модальное окно*/
 .modal{
 	position: fixed !important;
@@ -422,6 +421,17 @@
 	vertical-align: middle;
 	text-decoration: none !important;	
 }
+
+
+
+
+
+.active{
+	font-weight: bold;
+  font-size: 18px;
+}
+
+
 
 @media (min-width: 1200px){
 	.createProfile{

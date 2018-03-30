@@ -45,7 +45,8 @@ if(tab=='new-photo'){
 // if(tab=='remove-album'){
 // var tabalb = $('.nav-link__albums').data('tab');
 //   $('[data-content =  ' + tabalb + ']').fadeIn();
-//   $('.nav-link__albums').addClass('active');
+
+
 // }
 
 
@@ -55,10 +56,10 @@ $('label').removeClass('active');
 $(this).addClass('active');
 
 
-$('.active').css({
-  'fontWeight' : 'bold',
-  'fontSize' : '18px'
-})
+// $('.active').css({
+//   'fontWeight' : 'bold',
+//   'fontSize' : '18px'
+// })
 
 
 $('.active').siblings().css({
@@ -67,10 +68,15 @@ $('.active').siblings().css({
 })
 
 
-if($(this).data('tab')=='albums'){
+// if($(this).data('tab')=='albums'){
+//   $('.nav-link__new-album').css('display', 'inline-block')
+// };
+
+
+
+if($('.nav-link__albums').hasClass('active')){
   $('.nav-link__new-album').css('display', 'inline-block')
 };
-
 
 
 if($(this).data('tab') !== 'albums' && $(this).data('tab') !== 'new-album'){
